@@ -19,9 +19,13 @@ namespace AHELibrary
         [DefaultValue("")]
         [Localizable(true)]
 
+        private static List<int> sizes = new List<int> { 1, 2, 3, 5, 8, 12, 25, 35, 50, 75, 100 };
+
         //private Image image;
         private string imageUrl;
         private Button button;
+        private DropDownList toolSelectionDDL;
+        private DropDownList sizesDDL;
 
         [Bindable(true), Category("Appearance"), DefaultValue("")]
         public string ImageUrl
@@ -38,28 +42,37 @@ namespace AHELibrary
         //    set { ViewState["Width"] = value; }
         //}
 
-        protected override void CreateChildControls()
+
+        private void CreateCustomChildControls()
         {
-            this.Controls.Clear();
-            //image = new Image();
-            //image.Width = 500;
-            //image.Height = 500;
-            //image.BorderColor = System.Drawing.Color.Black;
-            //image.BorderWidth = 4;
-            //image.ID = "cropImage";
-            //image.ImageUrl = imageUrl;
-            //image.Visible = true;
-            //this.Controls.Add(image);
+
+            toolSelectionDDL = new DropDownList() { AutoPostBack = false };
+            toolSelectionDDL.Items.Add(new ListItem("Rechteck"));
+            toolSelectionDDL.Items.Add(new ListItem("Zuschneiden"));
+            toolSelectionDDL.SelectedIndexChanged += new EventHandler(ToolSelectionDDLSelected);
+            toolSelectionDDL.Attributes.Add("onchange", $"addMousedownToCanvas(this);");
+            base.Controls.Add(toolSelectionDDL);
+         
+            sizesDDL = new DropDownList();
+            foreach (int size in sizes)
+            {
+                sizesDDL.Items.Add(new ListItem(size.ToString() + " pixels"));
+            }
+            base.Controls.Add(sizesDDL);
 
             button = new Button();
             button.Text = "press";
             button.ID = "pressme";
             button.Width = 100;
             button.Height = 100;
-            this.Controls.Add(button);
+            base.Controls.Add(button);
 
+        }
 
-            base.CreateChildControls();
+        protected override void OnInit(EventArgs e)
+        {
+            base.OnInit(e);
+            CreateCustomChildControls();
         }
 
         public override void RenderControl(HtmlTextWriter writer)
@@ -81,6 +94,12 @@ namespace AHELibrary
                 output.RenderEndTag();
                 output.RenderBeginTag("br");
                 output.RenderEndTag();
+
+                //
+                toolSelectionDDL.RenderControl(output);
+                sizesDDL.RenderControl(output);
+
+                // unnötiger Testbutton
                 button.Attributes.Add("onclick", "return test()");
                 button.RenderControl(output);
             }
@@ -89,11 +108,20 @@ namespace AHELibrary
         protected override void OnPreRender(EventArgs e)
         {
             Page.ClientScript.RegisterClientScriptResource(typeof(WebPaint), "AHELibrary.Scripts.WebPaint.js");
+            Page.ClientScript.RegisterStartupScript(GetType(), "init", "init();", true);
         }
 
         public void DisplayImage(string imageURL)
         {
-            Page.ClientScript.RegisterStartupScript(GetType(), "id", $"drawImage(\"{imageURL}\")", true);
+            Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"drawImage(\"{imageURL}\");", true);
+        }
+
+        private void ToolSelectionDDLSelected(object sender, EventArgs e)
+        {
+            if (toolSelectionDDL.SelectedValue == "Rechteck")
+            {
+                Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"addMousedownToCanvas(\"{toolSelectionDDL.SelectedValue}\");", true);
+            }
         }
     }
 }
