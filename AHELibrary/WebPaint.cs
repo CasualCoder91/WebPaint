@@ -85,7 +85,17 @@ namespace AHELibrary
         {
             if (this.Visible)
             {
-                output.AddAttribute(HtmlTextWriterAttribute.Id, "imageCanvas");
+                // stores currently drawn Shape during mouse movement
+                output.AddAttribute(HtmlTextWriterAttribute.Id, "tempCanvas");
+                output.AddAttribute(HtmlTextWriterAttribute.Width, this.Width.ToString());
+                output.AddAttribute(HtmlTextWriterAttribute.Height, this.Height.ToString());
+                output.AddAttribute("runat", "server");
+                output.AddAttribute(HtmlTextWriterAttribute.Style, "display: none;");
+                output.RenderBeginTag("canvas");
+                output.RenderEndTag();
+
+                // displayed Canvas. Here we render the current image
+                output.AddAttribute(HtmlTextWriterAttribute.Id, "renderCanvas");
                 output.AddAttribute(HtmlTextWriterAttribute.Width, this.Width.ToString());
                 output.AddAttribute(HtmlTextWriterAttribute.Height, this.Height.ToString());
                 output.AddAttribute("runat", "server");
@@ -99,8 +109,8 @@ namespace AHELibrary
                 toolSelectionDDL.RenderControl(output);
                 sizesDDL.RenderControl(output);
 
-                // unnötiger Testbutton
-                button.Attributes.Add("onclick", "return test()");
+                // Testbutton
+                button.Attributes.Add("onclick", "test(); return false;"); // "return false;" to avoid postback
                 button.RenderControl(output);
             }
         }
