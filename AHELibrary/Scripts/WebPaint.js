@@ -17,7 +17,7 @@ var startX, endX, startY, endY;
 
 var mouseIsDown = 0;
 
-var lineWidth = 10
+var lineWidth = 1;
 
 function init() {
     renderCanvas = document.getElementById('renderCanvas');
@@ -67,43 +67,12 @@ function relativePos(event, element) {
     };
 }
 
-function trackDrag(onMove) {
-    function end(event) {
-        removeEventListener("mousemove", onMove);
-        removeEventListener("mouseup", end);
-    }
-    addEventListener("mousemove", onMove);
-    addEventListener("mouseup", end);
-}
-
-function mouseMove(e) {
-    if (drag) {
-        rect.w = (e.pageX - this.offsetLeft) - rect.startX;
-
-        rect.h = (e.pageY - this.offsetTop) - rect.startY;
-        drawx = e.pageX - this.offsetLeft;
-        drawy = e.pageY - this.offsetTop;
-        prevX = currX;
-        prevY = currY;
-        currX = e.clientX - renderCanvas.offsetLeft;
-        currY = e.clientY - renderCanvas.offsetTop;
-        if (drag = true) {
-            radius_New += 2;
-
-        }
-        draw();
-        if (DrawingTypes == "FreeDraw" || DrawingTypes == "Erase") {
-        }
-        else {
-            ctx.clearRect(0, 0, renderCanvas.width, renderCanvas.height);
-        }
-
-    }
-    drawOldShapes();
-}
-
 function setLineWidth(ddl) {
     lineWidth = ddl.value
+}
+
+function setAction(ddl) {
+    action = ddl.value
 }
 
 function eventListener() {

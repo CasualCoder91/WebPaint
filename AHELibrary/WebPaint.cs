@@ -70,8 +70,7 @@ namespace AHELibrary
             toolSelectionDDL = new DropDownList() { AutoPostBack = false };
             toolSelectionDDL.Items.Add(new ListItem("Rechteck"));
             toolSelectionDDL.Items.Add(new ListItem("Zuschneiden"));
-            toolSelectionDDL.SelectedIndexChanged += new EventHandler(ToolSelectionDDLSelected);
-            toolSelectionDDL.Attributes.Add("onchange", $"addMousedownToCanvas(this);");
+            toolSelectionDDL.Attributes.Add("onchange", $"setAction(this);");
             base.Controls.Add(toolSelectionDDL);
 
             sizesDDL = new DropDownList
@@ -148,14 +147,6 @@ namespace AHELibrary
         public void DisplayImage(string imageURL)
         {
             Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"drawImage(\"{imageURL}\");", true);
-        }
-
-        private void ToolSelectionDDLSelected(object sender, EventArgs e)
-        {
-            if (toolSelectionDDL.SelectedValue == "Rechteck")
-            {
-                Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"addMousedownToCanvas(\"{toolSelectionDDL.SelectedValue}\");", true);
-            }
         }
     }
 }
