@@ -17,6 +17,7 @@ var startX, endX, startY, endY;
 
 var mouseIsDown = 0;
 
+var lineWidth = 10
 
 function init() {
     renderCanvas = document.getElementById('renderCanvas');
@@ -101,29 +102,8 @@ function mouseMove(e) {
     drawOldShapes();
 }
 
-function drawRect(event) {
-    context.strokeStyle = 'orange';
-    
-    var pos = relativePos(event, context.canvas);
-    trackDrag(function (event) {
-        context.beginPath();
-        context.moveTo(pos.x, pos.y);
-        newPos = relativePos(event, context.canvas);
-        context.strokeRect(pos.x, pos.y, newPos.x - pos.x, newPos.y - pos.y);
-    });
-}
-
-function addMousedownToCanvas(ddl) {
-    init();
-
-    renderCanvas.addEventListener("mousedown", function (event) {
-        if (event.which == 1) {
-            if (ddl.value === "Rechteck") {
-                drawRect(event);
-            }
-            event.preventDefault();
-        }
-    });
+function setLineWidth(ddl) {
+    lineWidth = ddl.value
 }
 
 function eventListener() {
@@ -186,8 +166,8 @@ function drawSquare(cnv, clear) {
 
     ctx.beginPath();
     ctx.globalAlpha = 0.7;
-    ctx.lineWidth = 1;
     ctx.strokeStyle = 'orange'
+    ctx.lineWidth = lineWidth
     ctx.strokeRect(startX + offsetX, startY + offsetY, width, height);
 }
 

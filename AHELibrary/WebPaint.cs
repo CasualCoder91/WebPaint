@@ -19,7 +19,28 @@ namespace AHELibrary
         [DefaultValue("")]
         [Localizable(true)]
 
-        private static List<int> sizes = new List<int> { 1, 2, 3, 5, 8, 12, 25, 35, 50, 75, 100 };
+        struct LineWidth
+        {
+            public uint Size { get; set; }
+            public string Name { get; set; }
+
+            public LineWidth(uint size)
+            {
+                this.Size = size;
+                this.Name = $"{size} px";
+            }
+        }
+
+        private static readonly List<LineWidth> lineWidths = new List<LineWidth> { 
+            new LineWidth(1), 
+            new LineWidth(2), 
+            new LineWidth(3),
+            new LineWidth(5), 
+            new LineWidth(8),
+            new LineWidth(12),
+            new LineWidth(25),
+            new LineWidth(35),
+        };
 
         //private Image image;
         private string imageUrl;
@@ -52,12 +73,14 @@ namespace AHELibrary
             toolSelectionDDL.SelectedIndexChanged += new EventHandler(ToolSelectionDDLSelected);
             toolSelectionDDL.Attributes.Add("onchange", $"addMousedownToCanvas(this);");
             base.Controls.Add(toolSelectionDDL);
-         
-            sizesDDL = new DropDownList();
-            foreach (int size in sizes)
+
+            sizesDDL = new DropDownList
             {
-                sizesDDL.Items.Add(new ListItem(size.ToString() + " pixels"));
-            }
+                DataSource = lineWidths,
+                DataTextField = "Name",
+                DataValueField = "Size",
+            };
+            sizesDDL.Attributes.Add("onchange", $"setLineWidth(this);");
             base.Controls.Add(sizesDDL);
 
             button = new Button();
@@ -107,6 +130,7 @@ namespace AHELibrary
 
                 //
                 toolSelectionDDL.RenderControl(output);
+                sizesDDL.DataBind();
                 sizesDDL.RenderControl(output);
 
                 // Testbutton
