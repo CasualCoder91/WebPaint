@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 
 [assembly: System.Web.UI.WebResource("test.jpg", "image/jpg")]
 [assembly: System.Web.UI.WebResource("AHELibrary.Scripts.WebPaint.js", "text/javascript")]
+[assembly: System.Web.UI.WebResource("AHELibrary.WebPaint.css", "text/css")]
 
 
 // Setting ComVisible to false makes the types in this assembly not visible

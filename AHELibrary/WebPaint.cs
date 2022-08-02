@@ -129,6 +129,10 @@ namespace AHELibrary
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
+
+            string css = "<link href=\"" + Page.ClientScript.GetWebResourceUrl(this.GetType(), "AHELibrary.WebPaint.css") + "\" type=\"text/css\" rel=\"stylesheet\" />";
+            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "cssFile", css, false);
+
             CreateCustomChildControls();
         }
 
@@ -162,7 +166,7 @@ namespace AHELibrary
                 output.RenderBeginTag("br");
                 output.RenderEndTag();
 
-                
+                output.AddAttribute(HtmlTextWriterAttribute.Id, "menubar");
                 output.RenderBeginTag("div"); //Menubar
 
                 //Color selection

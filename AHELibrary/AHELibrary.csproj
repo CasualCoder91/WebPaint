@@ -47,6 +47,7 @@
     <Compile Include="WebPaint.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="WebPaint.css" />
     <EmbeddedResource Include="Scripts\WebPaint.js" />
     <Content Include="test.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
