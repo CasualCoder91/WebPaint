@@ -121,10 +121,14 @@ function mouseUp(event) {
             canvasArray.push(copyCanvas(tempCanvas)); // add shape to array when drawing is finised.
         }
         if (action === 'Zuschneiden') {
-            sourceX = startX;
-            sourceY = startY;
-            sourceWidth = Math.abs(pos.x - startX);
-            sourceHeight = Math.abs(pos.y - startY);
+            var w = endX - startX;
+            var h = endY - startY;
+            var offsetX = (w < 0) ? w : 0;
+            var offsetY = (h < 0) ? h : 0;
+            sourceX = offsetX + startX;
+            sourceY = offsetY + startY;
+            sourceWidth = Math.abs(w);
+            sourceHeight = Math.abs(h);
         }
         tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height); // shape no longer beeing drawn -> remove it from temp
     }
