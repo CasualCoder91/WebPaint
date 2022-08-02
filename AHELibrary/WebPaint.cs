@@ -70,6 +70,7 @@ namespace AHELibrary
             toolSelectionDDL = new DropDownList() { AutoPostBack = false };
             toolSelectionDDL.Items.Add(new ListItem("Rechteck"));
             toolSelectionDDL.Items.Add(new ListItem("Zuschneiden"));
+            toolSelectionDDL.SelectedIndex = 0;
             toolSelectionDDL.Attributes.Add("onchange", $"setAction(this);");
             base.Controls.Add(toolSelectionDDL);
 
@@ -128,6 +129,7 @@ namespace AHELibrary
                 output.RenderEndTag();
 
                 //
+                toolSelectionDDL.DataBind();
                 toolSelectionDDL.RenderControl(output);
                 sizesDDL.DataBind();
                 sizesDDL.RenderControl(output);

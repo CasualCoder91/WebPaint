@@ -19,12 +19,30 @@ var mouseIsDown = 0;
 
 var lineWidth = 1;
 
+// crop variables
+var forceProportions = true;
+var sourceX = 0;
+var sourceY = 0;
+var sourceWidth;
+var sourceHeight;
+var destX = 0;
+var destY = 0;
+var destWidth;
+var destHeight;
+
 function init() {
     renderCanvas = document.getElementById('renderCanvas');
     renderContext = renderCanvas.getContext('2d');
 
     tempCanvas = document.getElementById('tempCanvas');
-    tempContext = renderCanvas.getContext('2d');
+    tempContext = tempCanvas.getContext('2d');
+
+    sourceWidth = renderCanvas.width;
+    sourceHeight = renderCanvas.height;
+    destWidth = sourceWidth;
+    destHeight = sourceHeight;
+    console.log(destWidth);
+    console.log(destHeight);
 
     eventListener();
 }
@@ -42,7 +60,9 @@ function drawImage(imageURL) {
     img.src = imageURL;
     img.onload = function () {
         var inMemoryCanvas = document.createElement('canvas');
-        inMemoryCanvas.getContext('2d').drawImage(img, 0, 0);
+        inMemoryCanvas.width = renderCanvas.width;
+        inMemoryCanvas.height = renderCanvas.height;
+        inMemoryCanvas.getContext('2d').drawImage(img, 0, 0, renderCanvas.width, renderCanvas.height);
         canvasArray.push(inMemoryCanvas)
 	}
 }
@@ -62,8 +82,8 @@ function copyCanvas(canvas) {
 function relativePos(event, element) {
     var rect = element.getBoundingClientRect();
     return {
-        x: Math.floor(event.clientX - rect.left),
-        y: Math.floor(event.clientY - rect.top)
+        x: Math.floor(event.clientX - rect.left) * sourceWidth / destWidth + sourceX,
+        y: Math.floor(event.clientY - rect.top) * sourceHeight / destHeight + sourceY
     };
 }
 
@@ -97,10 +117,16 @@ function mouseUp(event) {
         var pos = relativePos(event, renderCanvas);
         endX = pos.x;
         endY = pos.y;
-        if (action == 'Rechteck') {
+        if (action === 'Rechteck') {
             canvasArray.push(copyCanvas(tempCanvas)); // add shape to array when drawing is finised.
-            tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height); // shape no longer beeing drawn -> remove it from temp
         }
+        if (action === 'Zuschneiden') {
+            sourceX = startX;
+            sourceY = startY;
+            sourceWidth = Math.abs(pos.x - startX);
+            sourceHeight = Math.abs(pos.y - startY);
+        }
+        tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height); // shape no longer beeing drawn -> remove it from temp
     }
 }
 
@@ -116,6 +142,9 @@ function mouseXY(event) {
         var pos = relativePos(event, renderCanvas);
         endX = pos.x;
         endY = pos.y;
+        if (forceProportions && action === 'Zuschneiden') {
+            endY = startY + (endY - startY) / Math.abs(endY - startY) * sourceHeight / sourceWidth * Math.abs(startX - pos.x);
+        }
         drawSquare(tempCanvas, true);
     }
 }
@@ -137,6 +166,13 @@ function drawSquare(cnv, clear) {
     ctx.globalAlpha = 0.7;
     ctx.strokeStyle = 'orange'
     ctx.lineWidth = lineWidth
+    ctx.setLineDash([]); // solid line
+    if (action === 'Zuschneiden') {
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'black';
+        ctx.setLineDash([5, 15]);
+    }
     ctx.strokeRect(startX + offsetX, startY + offsetY, width, height);
 }
 
@@ -145,16 +181,20 @@ function render() {
     var arrayLength = canvasArray.length;
     for (var i = 0; i < arrayLength; i++) {
         renderContext.drawImage(
-            canvasArray[i]
-            , 0, 0
-            , renderCanvas.width, renderCanvas.height
+            canvasArray[i],
+            sourceX, sourceY,
+            sourceWidth, sourceHeight,
+            destX, destY,
+            destWidth, destHeight
         );
     }
 
     // add shape currently beeing drawn on top
     renderContext.drawImage(
-        tempCanvas
-        , 0, 0
-        , renderCanvas.width, renderCanvas.height
+        tempCanvas,
+        sourceX, sourceY,
+        sourceWidth, sourceHeight,
+        destX, destY,
+        destWidth, destHeight
     );
 }
