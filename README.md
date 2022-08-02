@@ -2,6 +2,6 @@
 
 ## ToDo
 
-Handle onmouseout
-Add Colorpicker
-Add Undo/Redo
+- Handle onmouseout
+- Add Colorpicker
+- Add Undo/Redo
