@@ -68,7 +68,7 @@ namespace AHELibrary
 
         //private Image image;
         private string imageUrl;
-        private Button button;
+        private ImageButton rotateButton;
         private DropDownList toolSelectionDDL;
         private DropDownList sizesDDL;
 
@@ -117,12 +117,11 @@ namespace AHELibrary
             sizesDDL.Attributes.Add("onchange", $"setLineWidth(this);");
             base.Controls.Add(sizesDDL);
 
-            button = new Button();
-            button.Text = "press";
-            button.ID = "pressme";
-            button.Width = 100;
-            button.Height = 100;
-            base.Controls.Add(button);
+            rotateButton = new ImageButton();
+            rotateButton.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(AHELibrary.WebPaint), "AHELibrary.Img.rotate.png");
+            rotateButton.ID = "rotateButton";
+            rotateButton.ClientIDMode = ClientIDMode.Static;
+            base.Controls.Add(rotateButton);
 
         }
 
@@ -146,6 +145,9 @@ namespace AHELibrary
         {
             if (this.Visible)
             {
+                output.AddAttribute(HtmlTextWriterAttribute.Id, "master");
+                output.RenderBeginTag("div"); //Masterdiv
+
                 // stores currently drawn Shape during mouse movement
                 output.AddAttribute(HtmlTextWriterAttribute.Id, "tempCanvas");
                 output.AddAttribute(HtmlTextWriterAttribute.Width, this.Width.ToString());
@@ -167,9 +169,9 @@ namespace AHELibrary
                 output.RenderEndTag();
 
                 output.AddAttribute(HtmlTextWriterAttribute.Id, "menubar");
-                output.RenderBeginTag("div"); //Menubar
+                output.RenderBeginTag("div"); // Menubar
 
-                //Color selection
+                // Color selection
                 output.AddAttribute(HtmlTextWriterAttribute.Id, "colorChoice");
                 output.AddAttribute(HtmlTextWriterAttribute.Name, "colorChoice");
                 output.AddAttribute(HtmlTextWriterAttribute.Value, "#ff0000");
@@ -185,10 +187,12 @@ namespace AHELibrary
                 sizesDDL.RenderControl(output);
 
                 // Testbutton
-                button.Attributes.Add("onclick", "test(); return false;"); // "return false;" to avoid postback
-                button.RenderControl(output);
+                rotateButton.Attributes.Add("onclick", "test(); return false;"); // "return false;" to avoid postback
+                rotateButton.RenderControl(output);
 
-                output.RenderEndTag(); //close Menubar div
+                output.RenderEndTag(); // close Menubar div
+
+                output.RenderEndTag(); // close Master div
             }
         }
 

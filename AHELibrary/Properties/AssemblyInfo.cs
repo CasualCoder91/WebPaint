@@ -18,6 +18,8 @@ using System.Runtime.InteropServices;
 [assembly: System.Web.UI.WebResource("AHELibrary.Scripts.WebPaint.js", "text/javascript")]
 [assembly: System.Web.UI.WebResource("AHELibrary.WebPaint.css", "text/css")]
 
+[assembly: System.Web.UI.WebResource("AHELibrary.Img.rotate.png", "image/png")]
+
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
