@@ -128,6 +128,14 @@ namespace AHELibrary
                 output.RenderBeginTag("br");
                 output.RenderEndTag();
 
+                //Color selection
+                output.AddAttribute(HtmlTextWriterAttribute.Id, "favcolor");
+                output.AddAttribute(HtmlTextWriterAttribute.Name, "favcolor");
+                output.AddAttribute(HtmlTextWriterAttribute.Value, "#ff0000");
+                output.AddAttribute(HtmlTextWriterAttribute.Type, "color");
+                output.RenderBeginTag("input");
+                output.RenderEndTag();
+
                 //
                 toolSelectionDDL.DataBind();
                 toolSelectionDDL.RenderControl(output);

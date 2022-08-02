@@ -167,7 +167,7 @@ function drawSquare(cnv, clear) {
     var height = Math.abs(h);
 
     ctx.beginPath();
-    ctx.globalAlpha = 0.7;
+    ctx.globalAlpha = 1;
     ctx.strokeStyle = 'orange'
     ctx.lineWidth = lineWidth
     ctx.setLineDash([]); // solid line
