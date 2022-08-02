@@ -42,8 +42,8 @@ function init() {
     sourceHeight = renderCanvas.height;
     destWidth = sourceWidth;
     destHeight = sourceHeight;
-    console.log(destWidth);
-    console.log(destHeight);
+    //console.log(destWidth);
+    //console.log(destHeight);
 
     eventListener();
 }
@@ -56,14 +56,40 @@ function test() {
     render();
 }
 
-function drawImage(imageURL) {
-	var img = new Image();
+function drawImage(imageURL, fit = true) {
+    var img = new Image();
     img.src = imageURL;
     img.onload = function () {
+        var renderOffsetX = 0;
+        var renderOffsetY = 0;
+        var renderWidth = renderCanvas.width;
+        var renderHeight = renderCanvas.height;
+
+        if (fit) {
+            var ratioX = img.width / renderCanvas.width;
+            var ratioY = img.height / renderCanvas.height;
+            console.log(ratioX)
+            console.log(ratioY)
+            if (ratioX > ratioY) {
+                renderHeight = renderHeight / ratioX;
+                renderOffsetY = (renderCanvas.height - renderHeight) / 2;
+            }
+            else {
+                renderWidth = renderWidth / ratioY;
+                renderOffsetX = (renderCanvas.width - renderWidth) / 2;
+            }
+        }
+
         var inMemoryCanvas = document.createElement('canvas');
+        var inMemoryContext = inMemoryCanvas.getContext('2d');
         inMemoryCanvas.width = renderCanvas.width;
         inMemoryCanvas.height = renderCanvas.height;
-        inMemoryCanvas.getContext('2d').drawImage(img, 0, 0, renderCanvas.width, renderCanvas.height);
+
+        // White background in case image does not fill canvas
+        inMemoryContext.fillStyle = "white";
+        inMemoryContext.fillRect(0, 0, inMemoryCanvas.width, inMemoryCanvas.height);
+
+        inMemoryCanvas.getContext('2d').drawImage(img, renderOffsetX, renderOffsetY, renderWidth, renderHeight);
         canvasArray.push(inMemoryCanvas)
 	}
 }
