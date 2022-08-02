@@ -12,7 +12,7 @@
         <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
         <div>
             Test<br />
-            <AHE:WebPaint ID="webPaint" runat="server" Width="1000" Height="500" Visible="false" /><br />
+            <AHE:WebPaint ID="webPaint" runat="server" Width="1000" Height="500" Visible="false" Language="EN" /><br />
             <asp:Button ID="btnLoadImage" runat="server" OnClick="btnLoadImage_Click" Text="LoadImage" />
         </div>
     </form>

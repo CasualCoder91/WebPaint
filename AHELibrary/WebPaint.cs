@@ -31,6 +31,24 @@ namespace AHELibrary
             }
         }
 
+        class Action
+        {
+            public string Name { get; set; }
+            public string DisplayName { get; set; }
+
+            public Action(string name, string displayName)
+            {
+                this.Name = name;
+                this.DisplayName = displayName;
+            }
+
+            public Action(string name)
+            {
+                this.Name = name;
+                this.DisplayName = name;
+            }
+        }
+
         private static readonly List<LineWidth> lineWidths = new List<LineWidth> { 
             new LineWidth(1), 
             new LineWidth(2), 
@@ -40,6 +58,12 @@ namespace AHELibrary
             new LineWidth(12),
             new LineWidth(25),
             new LineWidth(35),
+        };
+
+        private List<Action> actions = new List<Action>
+        {
+            new Action("Rechteck"),
+            new Action("Zuschneiden"),
         };
 
         //private Image image;
@@ -57,19 +81,29 @@ namespace AHELibrary
             }
         }
 
-        //public override int Width
-        //{
-        //    get { return (int)ViewState["Width"]; }
-        //    set { ViewState["Width"] = value; }
-        //}
+        public string Language
+        {
+            get { return (string)ViewState["Language"]; }
+            set { ViewState["Language"] = value; }
+        }
 
 
         private void CreateCustomChildControls()
         {
+            // Textanzeige sprachsensitiv
+            if (Language == "EN")
+            {
+                actions.ElementAt(0).DisplayName = "Rectangle";
+                actions.ElementAt(1).DisplayName = "Trim";
+            }
 
-            toolSelectionDDL = new DropDownList() { AutoPostBack = false };
-            toolSelectionDDL.Items.Add(new ListItem("Rechteck"));
-            toolSelectionDDL.Items.Add(new ListItem("Zuschneiden"));
+            toolSelectionDDL = new DropDownList() 
+            {
+                AutoPostBack = false,
+                DataSource = actions,
+                DataTextField = "DisplayName",
+                DataValueField = "Name"
+            };
             toolSelectionDDL.SelectedIndex = 0;
             toolSelectionDDL.Attributes.Add("onchange", $"setAction(this);");
             base.Controls.Add(toolSelectionDDL);
@@ -128,6 +162,9 @@ namespace AHELibrary
                 output.RenderBeginTag("br");
                 output.RenderEndTag();
 
+                
+                output.RenderBeginTag("div"); //Menubar
+
                 //Color selection
                 output.AddAttribute(HtmlTextWriterAttribute.Id, "colorChoice");
                 output.AddAttribute(HtmlTextWriterAttribute.Name, "colorChoice");
@@ -146,6 +183,8 @@ namespace AHELibrary
                 // Testbutton
                 button.Attributes.Add("onclick", "test(); return false;"); // "return false;" to avoid postback
                 button.RenderControl(output);
+
+                output.RenderEndTag(); //close Menubar div
             }
         }
 

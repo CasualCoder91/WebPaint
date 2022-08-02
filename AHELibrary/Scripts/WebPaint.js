@@ -9,7 +9,7 @@ var tempContext;
 // Layers of the Image. All rendered on renderCanvas
 var canvasArray = new Array();
 
-// selected action. Can be a Shape to be drawn or maybe a cut tool etc.
+// selected action. Can be a Shape to be drawn or cut tool etc.
 var action = "Rechteck"
 
 // stores mouse position at mouse down / mouse up
