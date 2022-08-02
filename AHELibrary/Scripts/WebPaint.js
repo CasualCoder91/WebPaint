@@ -18,6 +18,7 @@ var startX, endX, startY, endY;
 var mouseIsDown = 0;
 
 var lineWidth = 1;
+var color = "#ff0000";
 
 // crop variables
 var forceProportions = true;
@@ -95,8 +96,12 @@ function setAction(ddl) {
     action = ddl.value
 }
 
+function setColor(colorChoice) {
+    color = colorChoice.value;
+}
+
 function eventListener() {
-    if (action == 'Rechteck') {
+    if (action === 'Rechteck') {
         renderCanvas.addEventListener("mousedown", function (e) {
             mouseDown(e);
             render();
@@ -168,7 +173,7 @@ function drawSquare(cnv, clear) {
 
     ctx.beginPath();
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = 'orange'
+    ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth
     ctx.setLineDash([]); // solid line
     if (action === 'Zuschneiden') {

@@ -129,10 +129,11 @@ namespace AHELibrary
                 output.RenderEndTag();
 
                 //Color selection
-                output.AddAttribute(HtmlTextWriterAttribute.Id, "favcolor");
-                output.AddAttribute(HtmlTextWriterAttribute.Name, "favcolor");
+                output.AddAttribute(HtmlTextWriterAttribute.Id, "colorChoice");
+                output.AddAttribute(HtmlTextWriterAttribute.Name, "colorChoice");
                 output.AddAttribute(HtmlTextWriterAttribute.Value, "#ff0000");
                 output.AddAttribute(HtmlTextWriterAttribute.Type, "color");
+                output.AddAttribute(HtmlTextWriterAttribute.Onchange, "setColor(this);");
                 output.RenderBeginTag("input");
                 output.RenderEndTag();
 
