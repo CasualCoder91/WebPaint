@@ -62,6 +62,9 @@ function test() {
 }
 
 function drawCanvas(destCanvas, sourceCanvas, fit = true) {
+    if (sourceCanvas === undefined) {
+        return;
+    }
 
     var renderOffsetX = 0;
     var renderOffsetY = 0;
