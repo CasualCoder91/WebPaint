@@ -71,11 +71,11 @@ function drawImage(imageURL, fit = true) {
             console.log(ratioX)
             console.log(ratioY)
             if (ratioX > ratioY) {
-                renderHeight = renderHeight / ratioX;
+                renderHeight = img.height / ratioX;
                 renderOffsetY = (renderCanvas.height - renderHeight) / 2;
             }
             else {
-                renderWidth = renderWidth / ratioY;
+                renderWidth = img.width / ratioY;
                 renderOffsetX = (renderCanvas.width - renderWidth) / 2;
             }
         }
@@ -89,7 +89,7 @@ function drawImage(imageURL, fit = true) {
         inMemoryContext.fillStyle = "white";
         inMemoryContext.fillRect(0, 0, inMemoryCanvas.width, inMemoryCanvas.height);
 
-        inMemoryCanvas.getContext('2d').drawImage(img, renderOffsetX, renderOffsetY, renderWidth, renderHeight);
+        inMemoryContext.drawImage(img, renderOffsetX, renderOffsetY, renderWidth, renderHeight);
         canvasArray.push(inMemoryCanvas)
 	}
 }
@@ -104,6 +104,30 @@ function copyCanvas(canvas) {
         , canvas.width, canvas.height
     );
     return inMemoryCanvas
+}
+
+function rotateCanvas(canvas, deg = 90) {
+    var ctx = canvas.getContext("2d");
+    var tempCanvas = document.createElement('canvas');
+    var tempCtx = tempCanvas.getContext("2d");
+
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(deg * Math.PI / 180);
+    ctx.drawImage(tempCanvas, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+
+    ctx.rotate(-deg * Math.PI / 180);
+    ctx.translate(-canvas.width / 2, -canvas.height / 2);
+}
+
+function rotate(deg = 90) {
+    var arrayLength = canvasArray.length;
+    for (var i = 0; i < arrayLength; i++) {
+        rotateCanvas(canvasArray[i], deg);
+    }
 }
 
 function relativePos(event, element) {

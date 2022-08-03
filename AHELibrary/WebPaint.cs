@@ -121,6 +121,7 @@ namespace AHELibrary
             rotateButton.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(AHELibrary.WebPaint), "AHELibrary.Img.rotate.png");
             rotateButton.ID = "rotateButton";
             rotateButton.ClientIDMode = ClientIDMode.Static;
+            rotateButton.OnClientClick = "rotate();";
             base.Controls.Add(rotateButton);
 
         }
