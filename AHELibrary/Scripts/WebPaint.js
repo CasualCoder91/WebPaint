@@ -34,6 +34,8 @@ var destY = 0;
 var destWidth;
 var destHeight;
 
+var actionLog = new Array();
+
 function init() {
     renderCanvas = document.getElementById('renderCanvas');
     renderContext = renderCanvas.getContext('2d');
@@ -217,7 +219,25 @@ function mouseUp(event) {
             sourceWidth = Math.abs(w);
             sourceHeight = Math.abs(h);
         }
+        actionLog.push(action);
         tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height); // shape no longer beeing drawn -> remove it from temp
+    }
+}
+
+function undo() {
+    if (actionLog.length > 0) {
+        var lastAction = actionLog[actionLog.length - 1];
+        if (lastAction === 'Rechteck') {
+            canvasArray.pop();
+        }
+        else if (lastAction === 'Zuschneiden') {
+            sourceX = 0;
+            sourceY = 0;
+            sourceWidth = renderCanvas.width;
+            sourceHeight = renderCanvas.height;
+        }
+        actionLog.pop();
+        render();
     }
 }
 

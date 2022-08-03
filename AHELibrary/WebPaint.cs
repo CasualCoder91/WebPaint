@@ -190,6 +190,7 @@ namespace AHELibrary
                 rotateButton.Attributes.Add("onclick", "rotate(); return false;"); // "return false;" to avoid postback
                 rotateButton.RenderControl(output);
 
+                undoButton.Attributes.Add("onclick", "undo(); return false;"); // "return false;" to avoid postback
                 undoButton.RenderControl(output);
 
                 output.RenderEndTag(); // close Menubar div
