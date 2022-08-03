@@ -14,6 +14,7 @@
             Test<br />
             <AHE:WebPaint ID="webPaint" runat="server" Width="300" Height="500" Visible="false" Language="EN" /><br />
             <asp:Button ID="btnLoadImage" runat="server" OnClick="btnLoadImage_Click" Text="LoadImage" />
+            <asp:Button ID="btnSaveImage" runat="server" OnClientClick="saveImageData();" OnClick="btnSaveImage_Click" />
         </div>
     </form>
 </body>

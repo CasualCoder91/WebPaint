@@ -89,6 +89,7 @@ function drawCanvas(destCanvas, sourceCanvas, fit = true) {
 function loadImage(imageURL) {
     var img = new Image();
     img.src = imageURL;
+    img.crossOrigin = "anonymous";
     img.onload = function () {
         imageCanvas = document.createElement('canvas');
         imageCanvas.width = img.width;
@@ -313,4 +314,15 @@ function render() {
         destX, destY,
         destWidth, destHeight
     );
+}
+
+function saveImageData() {
+    try {
+        var image = renderCanvas.toDataURL("image/png");
+        image = image.replace('data:image/png;base64,', '');
+        document.getElementById("imageData").value = image;
+        console.log("test");
+    } catch (error) {
+        console.error(error);
+    }
 }

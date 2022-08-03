@@ -71,11 +71,18 @@ namespace AHELibrary
         private ImageButton undoButton;
         private DropDownList toolSelectionDDL;
         private DropDownList sizesDDL;
+        private HiddenField imageData;
 
         public string Language
         {
             get { return (string)ViewState["Language"]; }
             set { ViewState["Language"] = value; }
+        }
+
+        public string SavePath
+        {
+            get { return (string)ViewState["SavePath"]; }
+            set { ViewState["SavePath"] = value; }
         }
 
 
@@ -123,6 +130,13 @@ namespace AHELibrary
                 ClientIDMode = ClientIDMode.Static,
             };
             base.Controls.Add(undoButton);
+
+            imageData = new HiddenField
+            {
+                ID = "imageData",
+                ClientIDMode = ClientIDMode.Static,
+            };
+            base.Controls.Add(imageData);
 
         }
 
@@ -196,6 +210,8 @@ namespace AHELibrary
                 output.RenderEndTag(); // close Menubar div
 
                 output.RenderEndTag(); // close Master div
+
+                imageData.RenderControl(output);
             }
         }
 
@@ -208,6 +224,24 @@ namespace AHELibrary
         public void DisplayImage(string imageURL)
         {
             Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"loadImage(\"{imageURL}\");", true);
+        }
+
+        public bool UploadImage(string path)
+        {
+            if (string.IsNullOrEmpty(imageData.Value))
+            {
+                return false;
+            }
+            using (System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.Create))
+            {
+                using (System.IO.BinaryWriter bw = new System.IO.BinaryWriter(fs))
+                {
+                    byte[] data = Convert.FromBase64String(imageData.Value);
+                    bw.Write(data);
+                    bw.Close();
+                }
+            }
+            return true;
         }
     }
 }
