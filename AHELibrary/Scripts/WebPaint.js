@@ -6,6 +6,9 @@ var renderContext;
 var tempCanvas;
 var tempContext;
 
+// stores image (not scaled)
+var imageCanvas;
+
 // Layers of the Image. All rendered on renderCanvas
 var canvasArray = new Array();
 
@@ -56,42 +59,41 @@ function test() {
     render();
 }
 
-function drawImage(imageURL, fit = true) {
+function drawCanvas(destCanvas, sourceCanvas, fit = true) {
+
+    var renderOffsetX = 0;
+    var renderOffsetY = 0;
+    var renderWidth = destCanvas.width;
+    var renderHeight = destCanvas.height;
+
+    if (fit) {
+        var ratioX = sourceCanvas.width / destCanvas.width;
+        var ratioY = sourceCanvas.height / destCanvas.height;
+        //console.log(ratioX)
+        //console.log(ratioY)
+        if (ratioX > ratioY) {
+            renderHeight = sourceCanvas.height / ratioX;
+            renderOffsetY = (destCanvas.height - renderHeight) / 2;
+        }
+        else {
+            renderWidth = sourceCanvas.width / ratioY;
+            renderOffsetX = (destCanvas.width - renderWidth) / 2;
+        }
+    }
+
+    destCanvas.getContext('2d').drawImage(sourceCanvas, renderOffsetX, renderOffsetY, renderWidth, renderHeight);
+}
+
+function loadImage(imageURL) {
     var img = new Image();
     img.src = imageURL;
     img.onload = function () {
-        var renderOffsetX = 0;
-        var renderOffsetY = 0;
-        var renderWidth = renderCanvas.width;
-        var renderHeight = renderCanvas.height;
-
-        if (fit) {
-            var ratioX = img.width / renderCanvas.width;
-            var ratioY = img.height / renderCanvas.height;
-            console.log(ratioX)
-            console.log(ratioY)
-            if (ratioX > ratioY) {
-                renderHeight = img.height / ratioX;
-                renderOffsetY = (renderCanvas.height - renderHeight) / 2;
-            }
-            else {
-                renderWidth = img.width / ratioY;
-                renderOffsetX = (renderCanvas.width - renderWidth) / 2;
-            }
-        }
-
-        var inMemoryCanvas = document.createElement('canvas');
-        var inMemoryContext = inMemoryCanvas.getContext('2d');
-        inMemoryCanvas.width = renderCanvas.width;
-        inMemoryCanvas.height = renderCanvas.height;
-
-        // White background in case image does not fill canvas
-        inMemoryContext.fillStyle = "white";
-        inMemoryContext.fillRect(0, 0, inMemoryCanvas.width, inMemoryCanvas.height);
-
-        inMemoryContext.drawImage(img, renderOffsetX, renderOffsetY, renderWidth, renderHeight);
-        canvasArray.push(inMemoryCanvas)
-	}
+        imageCanvas = document.createElement('canvas');
+        imageCanvas.width = img.width;
+        imageCanvas.height = img.height;
+        imageCanvas.getContext('2d').drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
+        render();
+    }
 }
 
 function copyCanvas(canvas) {
@@ -113,21 +115,46 @@ function rotateCanvas(canvas, deg = 90) {
 
     tempCanvas.width = canvas.width;
     tempCanvas.height = canvas.height;
+
+    // fit
+    //var renderOffsetX = 0;
+    //var renderOffsetY = 0;
+    //var renderWidth = tempCanvas.height;
+    //var renderHeight = tempCanvas.width;
+    //var ratioX = tempCanvas.height / tempCanvas.width;
+    //var ratioY = tempCanvas.width / tempCanvas.height;
+    //if (ratioX > ratioY) {
+    //    renderHeight = renderHeight / ratioX;
+    //    renderOffsetY = (renderCanvas.height - renderHeight) / 2;
+    //}
+    //else {
+    //    renderWidth = imageCanvas.width / ratioY;
+    //    renderOffsetX = (renderCanvas.width - renderWidth) / 2;
+    //}
+    // fit end
+
     tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
 
+    canvas.width = tempCanvas.height;
+    canvas.height = tempCanvas.width;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
     ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.rotate(deg * Math.PI / 180);
-    ctx.drawImage(tempCanvas, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+    ctx.drawImage(tempCanvas, -canvas.height / 2, -canvas.width / 2, canvas.height, canvas.width);
 
     ctx.rotate(-deg * Math.PI / 180);
     ctx.translate(-canvas.width / 2, -canvas.height / 2);
 }
 
 function rotate(deg = 90) {
+    rotateCanvas(imageCanvas, deg);
     var arrayLength = canvasArray.length;
     for (var i = 0; i < arrayLength; i++) {
         rotateCanvas(canvasArray[i], deg);
     }
+    render();
 }
 
 function relativePos(event, element) {
@@ -166,6 +193,7 @@ function eventListener() {
         }, false);
     }
 }
+
 function mouseUp(event) {
     if (mouseIsDown !== 0) {
         mouseIsDown = 0;
@@ -176,6 +204,10 @@ function mouseUp(event) {
             canvasArray.push(copyCanvas(tempCanvas)); // add shape to array when drawing is finised.
         }
         if (action === 'Zuschneiden') {
+            if (forceProportions) {
+                endY = startY + (endY - startY) / Math.abs(endY - startY) * sourceHeight / sourceWidth * Math.abs(startX - pos.x);
+            }
+
             var w = endX - startX;
             var h = endY - startY;
             var offsetX = (w < 0) ? w : 0;
@@ -236,21 +268,26 @@ function drawSquare(cnv, clear) {
 }
 
 function render() {
+
+    // White background in case image does not fill canvas
+    renderContext.fillStyle = "white";
+    renderContext.fillRect(0, 0, renderCanvas.width, renderCanvas.height);
+
+    // render image
+    drawCanvas(renderCanvas, imageCanvas, true);
+
     // render all stored Layers 
     var arrayLength = canvasArray.length;
     for (var i = 0; i < arrayLength; i++) {
-        renderContext.drawImage(
-            canvasArray[i],
-            sourceX, sourceY,
-            sourceWidth, sourceHeight,
-            destX, destY,
-            destWidth, destHeight
-        );
+        drawCanvas(renderCanvas, canvasArray[i], true);
     }
 
     // add shape currently beeing drawn on top
+    drawCanvas(renderCanvas, tempCanvas, true);
+
+    // Zoom based on selected crop
     renderContext.drawImage(
-        tempCanvas,
+        renderCanvas,
         sourceX, sourceY,
         sourceWidth, sourceHeight,
         destX, destY,

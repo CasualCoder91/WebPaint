@@ -50,6 +50,7 @@
     <EmbeddedResource Include="WebPaint.css" />
     <EmbeddedResource Include="Scripts\WebPaint.js" />
     <EmbeddedResource Include="Img\rotate.png" />
+    <EmbeddedResource Include="Img\undo.png" />
     <Content Include="test.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

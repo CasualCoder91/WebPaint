@@ -67,19 +67,10 @@ namespace AHELibrary
         };
 
         //private Image image;
-        private string imageUrl;
         private ImageButton rotateButton;
+        private ImageButton undoButton;
         private DropDownList toolSelectionDDL;
         private DropDownList sizesDDL;
-
-        [Bindable(true), Category("Appearance"), DefaultValue("")]
-        public string ImageUrl
-        {
-            set
-            {
-                this.imageUrl = value;
-            }
-        }
 
         public string Language
         {
@@ -117,12 +108,21 @@ namespace AHELibrary
             sizesDDL.Attributes.Add("onchange", $"setLineWidth(this);");
             base.Controls.Add(sizesDDL);
 
-            rotateButton = new ImageButton();
-            rotateButton.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(AHELibrary.WebPaint), "AHELibrary.Img.rotate.png");
-            rotateButton.ID = "rotateButton";
-            rotateButton.ClientIDMode = ClientIDMode.Static;
-            rotateButton.OnClientClick = "rotate();";
+            rotateButton = new ImageButton
+            {
+                ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(AHELibrary.WebPaint), "AHELibrary.Img.rotate.png"),
+                ID = "rotateButton",
+                ClientIDMode = ClientIDMode.Static,
+            };
             base.Controls.Add(rotateButton);
+
+            undoButton = new ImageButton
+            {
+                ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(AHELibrary.WebPaint), "AHELibrary.Img.undo.png"),
+                ID = "undoButton",
+                ClientIDMode = ClientIDMode.Static,
+            };
+            base.Controls.Add(undoButton);
 
         }
 
@@ -163,7 +163,7 @@ namespace AHELibrary
                 output.AddAttribute(HtmlTextWriterAttribute.Width, this.Width.ToString());
                 output.AddAttribute(HtmlTextWriterAttribute.Height, this.Height.ToString());
                 output.AddAttribute("runat", "server");
-                output.AddAttribute(HtmlTextWriterAttribute.Style, "border: 2px solid black");
+                //output.AddAttribute(HtmlTextWriterAttribute.Style, "border: 2px solid black");
                 output.RenderBeginTag("canvas");
                 output.RenderEndTag();
                 output.RenderBeginTag("br");
@@ -187,9 +187,10 @@ namespace AHELibrary
                 sizesDDL.DataBind();
                 sizesDDL.RenderControl(output);
 
-                // Testbutton
-                rotateButton.Attributes.Add("onclick", "test(); return false;"); // "return false;" to avoid postback
+                rotateButton.Attributes.Add("onclick", "rotate(); return false;"); // "return false;" to avoid postback
                 rotateButton.RenderControl(output);
+
+                undoButton.RenderControl(output);
 
                 output.RenderEndTag(); // close Menubar div
 
@@ -205,7 +206,7 @@ namespace AHELibrary
 
         public void DisplayImage(string imageURL)
         {
-            Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"drawImage(\"{imageURL}\");", true);
+            Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"loadImage(\"{imageURL}\");", true);
         }
     }
 }
