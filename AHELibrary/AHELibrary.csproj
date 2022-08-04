@@ -53,5 +53,8 @@
     <EmbeddedResource Include="Resources\rotate.png" />
     <EmbeddedResource Include="Resources\undo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WebPaint.bmp" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

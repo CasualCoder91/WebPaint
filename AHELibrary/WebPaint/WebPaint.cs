@@ -10,7 +10,8 @@ using System.Web.UI.WebControls;
 
 namespace Alarich
 {
-    [DefaultProperty("OnClientResponseReceived")]
+    [ToolboxItem(true)]
+    [System.Drawing.ToolboxBitmap(typeof(WebPaint), "Alarich.WebPaint.bmp")]
     [ToolboxData("<{0}:WebPaint runat=server></{0}:WebPaint>")]
     public class WebPaint : CompositeControl
     {

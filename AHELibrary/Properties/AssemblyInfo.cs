@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WebPaint")]
 [assembly: AssemblyDescription("A custom server control for image manipulation.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Just Me")]
+[assembly: AssemblyCompany("Alarich Herzner")]
 [assembly: AssemblyProduct("WebPaint")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 
 [assembly: System.Web.UI.WebResource("Alarich.Resources.rotate.png", "image/png")]
 [assembly: System.Web.UI.WebResource("Alarich.Resources.undo.png", "image/png")]
+
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
