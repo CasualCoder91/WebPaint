@@ -16,6 +16,10 @@ A custom server control for image manipulation.
 
 ![](doc/demonstration.gif)
 
+## Getting Started
+
+Download and install the <a href="https://www.nuget.org/packages/Alarich.WebPaint/">NuGet Package</a>.
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
