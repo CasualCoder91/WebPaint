@@ -7,6 +7,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TestSite", "TestSite\TestSi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHELibrary", "AHELibrary\AHELibrary.csproj", "{5EBDE6A5-3421-43AE-A620-74DA73E5ACB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSiteCS", "TestSiteCS\TestSiteCS.csproj", "{491A908C-9FB1-47AD-8933-6A496E3A5D39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5EBDE6A5-3421-43AE-A620-74DA73E5ACB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EBDE6A5-3421-43AE-A620-74DA73E5ACB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EBDE6A5-3421-43AE-A620-74DA73E5ACB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{491A908C-9FB1-47AD-8933-6A496E3A5D39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{491A908C-9FB1-47AD-8933-6A496E3A5D39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{491A908C-9FB1-47AD-8933-6A496E3A5D39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{491A908C-9FB1-47AD-8933-6A496E3A5D39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
