@@ -2,7 +2,7 @@
 
 # WebPaint
 
-A .NET Framework 4.8 custom server control for image manipulation.
+A NET Framework 4.8-based Custom ASP.NET Server Control for image manipulation.
 
 ## Current Capabilities
 
