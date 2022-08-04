@@ -11,10 +11,9 @@
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
         <div>
-            Test<br />
-            <AHE:WebPaint ID="webPaint" runat="server" Width="300" Height="500" Visible="false" Language="EN" /><br />
-            <asp:Button ID="btnLoadImage" runat="server" OnClick="btnLoadImage_Click" Text="LoadImage" />
-            <asp:Button ID="btnSaveImage" runat="server" OnClientClick="saveImageData();" OnClick="btnSaveImage_Click" />
+            <AHE:WebPaint ID="webPaint" runat="server" Width="500" Height="500" Visible="false" Language="EN" /><br />
+            <asp:Button ID="btnLoadImage" runat="server" OnClick="btnLoadImage_Click" Text="Load" />
+            <asp:Button ID="btnSaveImage" runat="server" OnClientClick="saveImageData();" OnClick="btnSaveImage_Click" Text="Save" />
         </div>
     </form>
 </body>
