@@ -38,7 +38,7 @@ Partial Public Class _Default
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents webPaint As Global.AHELibrary.WebPaint
+    Protected WithEvents webPaint As Global.Alarich.WebPaint
 
     '''<summary>
     '''btnLoadImage control.

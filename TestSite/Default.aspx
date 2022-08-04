@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Default.aspx.vb" Inherits="TestSite._Default" %>
-<%@ Register Assembly="AHELibrary" Namespace="AHELibrary" TagPrefix="AHE" %>
+<%@ Register Assembly="Alarich.WebPaint" Namespace="Alarich" TagPrefix="AHE" %>
 
 <!DOCTYPE html>
 

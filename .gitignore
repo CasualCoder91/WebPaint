@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 
 TestSite/Images/*
+/AHELibrary/nuget.exe

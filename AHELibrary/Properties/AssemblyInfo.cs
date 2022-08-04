@@ -5,21 +5,20 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AHELibrary")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("WebPaint")]
+[assembly: AssemblyDescription("A custom server control for image manipulation.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AHELibrary")]
+[assembly: AssemblyCompany("Just Me")]
+[assembly: AssemblyProduct("WebPaint")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: System.Web.UI.WebResource("test.jpg", "image/jpg")]
-[assembly: System.Web.UI.WebResource("AHELibrary.Scripts.WebPaint.js", "text/javascript")]
-[assembly: System.Web.UI.WebResource("AHELibrary.WebPaint.css", "text/css")]
+[assembly: System.Web.UI.WebResource("Alarich.WebPaint.Scripts.WebPaint.js", "text/javascript")]
+[assembly: System.Web.UI.WebResource("Alarich.WebPaint.WebPaint.css", "text/css")]
 
-[assembly: System.Web.UI.WebResource("AHELibrary.Img.rotate.png", "image/png")]
-[assembly: System.Web.UI.WebResource("AHELibrary.Img.undo.png", "image/png")]
+[assembly: System.Web.UI.WebResource("Alarich.Resources.rotate.png", "image/png")]
+[assembly: System.Web.UI.WebResource("Alarich.Resources.undo.png", "image/png")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace AHELibrary
+namespace Alarich
 {
     [DefaultProperty("OnClientResponseReceived")]
     [ToolboxData("<{0}:WebPaint runat=server></{0}:WebPaint>")]
@@ -117,7 +117,7 @@ namespace AHELibrary
 
             rotateButton = new ImageButton
             {
-                ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(AHELibrary.WebPaint), "AHELibrary.Img.rotate.png"),
+                ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(Alarich.WebPaint), "Alarich.Resources.rotate.png"),
                 ID = "rotateButton",
                 ClientIDMode = ClientIDMode.Static,
             };
@@ -125,7 +125,7 @@ namespace AHELibrary
 
             undoButton = new ImageButton
             {
-                ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(AHELibrary.WebPaint), "AHELibrary.Img.undo.png"),
+                ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(Alarich.WebPaint), "Alarich.Resources.undo.png"),
                 ID = "undoButton",
                 ClientIDMode = ClientIDMode.Static,
             };
@@ -144,7 +144,7 @@ namespace AHELibrary
         {
             base.OnInit(e);
 
-            string css = "<link href=\"" + Page.ClientScript.GetWebResourceUrl(this.GetType(), "AHELibrary.WebPaint.css") + "\" type=\"text/css\" rel=\"stylesheet\" />";
+            string css = "<link href=\"" + Page.ClientScript.GetWebResourceUrl(this.GetType(), "Alarich.WebPaint.WebPaint.css") + "\" type=\"text/css\" rel=\"stylesheet\" />";
             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "cssFile", css, false);
 
             CreateCustomChildControls();
@@ -217,7 +217,7 @@ namespace AHELibrary
 
         protected override void OnPreRender(EventArgs e)
         {
-            Page.ClientScript.RegisterClientScriptResource(typeof(WebPaint), "AHELibrary.Scripts.WebPaint.js");
+            Page.ClientScript.RegisterClientScriptResource(typeof(WebPaint), "Alarich.WebPaint.Scripts.WebPaint.js");
             Page.ClientScript.RegisterStartupScript(GetType(), "init", "init();", true);
         }
 
