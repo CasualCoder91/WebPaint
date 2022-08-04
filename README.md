@@ -34,7 +34,7 @@ A .NET Framework 4.8 custom server control for image manipulation.
    ```cs
    protected void btnLoadImage_Click(object sender, EventArgs e)
    {
-      webPaint.DisplayImage("https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg");
+      webPaint.DisplayImage("https://picsum.photos/200/300");
       webPaint.Visible = true;
    }
    
@@ -53,7 +53,7 @@ A .NET Framework 4.8 custom server control for image manipulation.
 
 1. Load an image and make the control visible:
    ```cs
-   webPaint.DisplayImage("https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg");
+   webPaint.DisplayImage("https://picsum.photos/200/300");
    webPaint.Visible = true;
    ```
 2. The user interacts with the control (rotate image, scale image, add rectangles)
