@@ -16,7 +16,7 @@ namespace TestSiteCS
 
         protected void btnLoadImage_Click(object sender, EventArgs e)
         {
-            webPaint.DisplayImage("https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg");
+            webPaint.DisplayImage("https://picsum.photos/200/300");
             webPaint.Visible = true;
         }
 
