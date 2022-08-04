@@ -10,7 +10,9 @@ A custom server control for image manipulation.
 - Rotate
 - Draw rectange
 
-![Demonstration](doc/demonstration.gif)
+### Demonstration
+
+![](doc/demonstration.gif)
 
 ## ToDo
 
