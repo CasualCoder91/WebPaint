@@ -10,12 +10,10 @@ A custom server control for image manipulation.
 - Rotate
 - Draw rectange
 
-## Demonstration
-
-![](doc/demonstration.gif)
+![Demonstration](doc/demonstration.gif)
 
 ## ToDo
 
 - Handle onmouseout
-- Add Colorpicker
-- Add Undo/Redo
+- Add Customization options
+- test ...
