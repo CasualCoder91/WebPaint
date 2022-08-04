@@ -1,3 +1,5 @@
+[![NuGet version (Alarich.WebPaint)](https://img.shields.io/nuget/v/Alarich.WebPaint.svg?style=flat-square)](https://www.nuget.org/packages/Alarich.WebPaint/)
+
 # WebPaint
 
 A custom server control for image manipulation.
