@@ -12,6 +12,8 @@ A custom server control for image manipulation.
 
 ## Demonstration
 
+![](doc/demonstration.gif)
+
 ## ToDo
 
 - Handle onmouseout
