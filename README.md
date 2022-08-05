@@ -81,3 +81,13 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
   - [ ] custom css
   - [ ] disable proportion enforcement
 - [ ] test ...
+
+## Changelog
+
+### [1.0.0.1] - 2022-08-05
+
+Rework resulting in better results regarding "rotation" and "undo" functions.
+
+### [1.0.0] - 2022-08-04
+
+Initial Release
