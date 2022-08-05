@@ -43,8 +43,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Alarich.WebPaint, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Alarich.WebPaint.1.0.0\lib\net48\Alarich.WebPaint.dll</HintPath>
+    <Reference Include="Alarich.WebPaint, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alarich.WebPaint.1.0.0.1\lib\net48\Alarich.WebPaint.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
