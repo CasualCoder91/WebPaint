@@ -6,11 +6,8 @@ var renderContext;
 var tempCanvas;
 var tempContext;
 
-// stores image (not scaled)
-var imageCanvas;
-
-// Layers of the Image. All rendered on renderCanvas
-var canvasArray = new Array();
+// Last entry in the array represent the current image.
+var canvasLog = new Array();
 
 // selected action. Can be a Shape to be drawn or cut tool etc.
 var action = "Rechteck"
@@ -25,14 +22,6 @@ var color = "#ff0000";
 
 // crop variables
 var forceProportions = true;
-var sourceX = 0;
-var sourceY = 0;
-var sourceWidth;
-var sourceHeight;
-var destX = 0;
-var destY = 0;
-var destWidth;
-var destHeight;
 
 var actionLog = new Array();
 
@@ -43,10 +32,12 @@ function init() {
     tempCanvas = document.getElementById('tempCanvas');
     tempContext = tempCanvas.getContext('2d');
 
-    sourceWidth = renderCanvas.width;
-    sourceHeight = renderCanvas.height;
-    destWidth = sourceWidth;
-    destHeight = sourceHeight;
+    // the initial canvas to be rendered. Just a white background.
+    var initialCanvas = copyCanvas(tempCanvas);
+    initialCanvas.getContext('2d').fillStyle = "white";
+    initialCanvas.getContext('2d').fillRect(0, 0, initialCanvas.width, initialCanvas.height);
+    canvasLog.push(initialCanvas);
+
     //console.log(destWidth);
     //console.log(destHeight);
 
@@ -94,10 +85,20 @@ function loadImage(imageURL) {
     img.src = imageURL;
     img.crossOrigin = "anonymous";
     img.onload = function () {
-        imageCanvas = document.createElement('canvas');
+        // draw image on a new canvas keeping the original size
+        var imageCanvas = document.createElement('canvas');
         imageCanvas.width = img.width;
         imageCanvas.height = img.height;
         imageCanvas.getContext('2d').drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
+
+        // create target canvas fitting proportions of the render canvas
+        var inMemoryCanvas = copyCanvas(renderCanvas);
+
+        // draw image onto target canvas -> scaling the image wile keeping proportions
+        drawCanvas(inMemoryCanvas, imageCanvas, true);
+
+        canvasLog.push(inMemoryCanvas);
+
         render();
     }
 }
@@ -107,7 +108,7 @@ function copyCanvas(canvas) {
     inMemoryCanvas.width = canvas.width;
     inMemoryCanvas.height = canvas.height;
     inMemoryCanvas.getContext('2d').drawImage(
-        tempCanvas
+        canvas
         , 0, 0
         , canvas.width, canvas.height
     );
@@ -121,23 +122,6 @@ function rotateCanvas(canvas, deg = 90) {
 
     tempCanvas.width = canvas.width;
     tempCanvas.height = canvas.height;
-
-    // fit
-    //var renderOffsetX = 0;
-    //var renderOffsetY = 0;
-    //var renderWidth = tempCanvas.height;
-    //var renderHeight = tempCanvas.width;
-    //var ratioX = tempCanvas.height / tempCanvas.width;
-    //var ratioY = tempCanvas.width / tempCanvas.height;
-    //if (ratioX > ratioY) {
-    //    renderHeight = renderHeight / ratioX;
-    //    renderOffsetY = (renderCanvas.height - renderHeight) / 2;
-    //}
-    //else {
-    //    renderWidth = imageCanvas.width / ratioY;
-    //    renderOffsetX = (renderCanvas.width - renderWidth) / 2;
-    //}
-    // fit end
 
     tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
 
@@ -155,19 +139,17 @@ function rotateCanvas(canvas, deg = 90) {
 }
 
 function rotate(deg = 90) {
-    rotateCanvas(imageCanvas, deg);
-    var arrayLength = canvasArray.length;
-    for (var i = 0; i < arrayLength; i++) {
-        rotateCanvas(canvasArray[i], deg);
-    }
+    var inMemoryCanvas = copyCanvas(canvasLog[canvasLog.length - 1]);
+    rotateCanvas(inMemoryCanvas, deg);
+    canvasLog.push(inMemoryCanvas);
     render();
 }
 
 function relativePos(event, element) {
     var rect = element.getBoundingClientRect();
     return {
-        x: Math.floor(event.clientX - rect.left) * sourceWidth / destWidth + sourceX,
-        y: Math.floor(event.clientY - rect.top) * sourceHeight / destHeight + sourceY
+        x: Math.floor(event.clientX - rect.left),
+        y: Math.floor(event.clientY - rect.top)
     };
 }
 
@@ -207,21 +189,36 @@ function mouseUp(event) {
         endX = pos.x;
         endY = pos.y;
         if (action === 'Rechteck') {
-            canvasArray.push(copyCanvas(tempCanvas)); // add shape to array when drawing is finised.
+            var currentCanvas = copyCanvas(canvasLog[canvasLog.length - 1]); // new canvas is old canvas
+            drawCanvas(currentCanvas, tempCanvas) // draw shape on top of new canvas
+            canvasLog.push(currentCanvas); // add new canvas to the Log
         }
         if (action === 'Zuschneiden') {
             if (forceProportions) {
-                endY = startY + (endY - startY) / Math.abs(endY - startY) * sourceHeight / sourceWidth * Math.abs(startX - pos.x);
+                endY = startY + (endY - startY) / Math.abs(endY - startY) * renderCanvas.height / renderCanvas.width * Math.abs(startX - pos.x);
             }
 
             var w = endX - startX;
             var h = endY - startY;
             var offsetX = (w < 0) ? w : 0;
             var offsetY = (h < 0) ? h : 0;
-            sourceX = offsetX + startX;
-            sourceY = offsetY + startY;
-            sourceWidth = Math.abs(w);
-            sourceHeight = Math.abs(h);
+            var sourceX = offsetX + startX;
+            var sourceY = offsetY + startY;
+            var sourceWidth = Math.abs(w);
+            var sourceHeight = Math.abs(h);
+
+            var currentCanvas = copyCanvas(canvasLog[canvasLog.length - 1]); // new canvas is old canvas
+
+            currentCanvas.getContext('2d').drawImage(
+                canvasLog[canvasLog.length - 1],
+                sourceX, sourceY,
+                sourceWidth, sourceHeight,
+                0, 0,
+                renderCanvas.width, renderCanvas.height
+            );
+
+            canvasLog.push(currentCanvas); // add new canvas to the Log
+
         }
         actionLog.push(action);
         tempContext.clearRect(0, 0, tempCanvas.width, tempCanvas.height); // shape no longer beeing drawn -> remove it from temp
@@ -229,18 +226,8 @@ function mouseUp(event) {
 }
 
 function undo() {
-    if (actionLog.length > 0) {
-        var lastAction = actionLog[actionLog.length - 1];
-        if (lastAction === 'Rechteck') {
-            canvasArray.pop();
-        }
-        else if (lastAction === 'Zuschneiden') {
-            sourceX = 0;
-            sourceY = 0;
-            sourceWidth = renderCanvas.width;
-            sourceHeight = renderCanvas.height;
-        }
-        actionLog.pop();
+    if (canvasLog.length > 0) {
+        canvasLog.pop();
         render();
     }
 }
@@ -258,7 +245,7 @@ function mouseXY(event) {
         endX = pos.x;
         endY = pos.y;
         if (forceProportions && action === 'Zuschneiden') {
-            endY = startY + (endY - startY) / Math.abs(endY - startY) * sourceHeight / sourceWidth * Math.abs(startX - pos.x);
+            endY = startY + (endY - startY) / Math.abs(endY - startY) * renderCanvas.height / renderCanvas.width * Math.abs(startX - pos.x);
         }
         drawSquare(tempCanvas, true);
     }
@@ -297,26 +284,14 @@ function render() {
     renderContext.fillStyle = "white";
     renderContext.fillRect(0, 0, renderCanvas.width, renderCanvas.height);
 
-    // render image
-    drawCanvas(renderCanvas, imageCanvas, true);
-
-    // render all stored Layers 
-    var arrayLength = canvasArray.length;
-    for (var i = 0; i < arrayLength; i++) {
-        drawCanvas(renderCanvas, canvasArray[i], true);
+    // render current image
+    if (canvasLog.length > 0) {
+        drawCanvas(renderCanvas, canvasLog[canvasLog.length - 1])
     }
 
     // add shape currently beeing drawn on top
     drawCanvas(renderCanvas, tempCanvas, true);
 
-    // Zoom based on selected crop
-    renderContext.drawImage(
-        renderCanvas,
-        sourceX, sourceY,
-        sourceWidth, sourceHeight,
-        destX, destY,
-        destWidth, destHeight
-    );
 }
 
 function saveImageData() {
