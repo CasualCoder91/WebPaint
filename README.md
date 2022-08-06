@@ -68,6 +68,18 @@ If a postback is unavoidable make sure to save the image data first by calling t
 
 The properties `Width` and `Height` refer to the resolution of the displayed image. An uploaded image is automatically scaled if neccesary while keeping its resolution. When using the `trim` tool the given resolution is enforced aswell.
 
+### Customization
+
+ - Use the Property `CSSLink` to link a custom css file.
+   ```ASP.NET
+   CSSLink="/CustomWebPaint.css"
+   ```
+   Refer to [WebPaint.css](/AHELibrary/WebPaint/WebPaint.css) for available options.
+
+ - The property `DefaultColor` can be set to any hex value to change the default color.
+   ```html
+   DefaultColor="#FFFFFF"
+   ```
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
@@ -78,11 +90,15 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 - [ ] Handle onmouseout
 - [ ] Add Customization options
-  - [ ] custom css
+  - [x] custom css
   - [ ] disable proportion enforcement
 - [ ] test ...
 
 ## Changelog
+
+### [1.0.0.2] - 2022-08-06
+
+Properties for default color and custom css file added.
 
 ### [1.0.0.1] - 2022-08-05
 
