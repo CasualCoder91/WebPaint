@@ -102,7 +102,11 @@ namespace Alarich
 
         public string CSSLink
         {
-            get { return (string)ViewState["CSSLink"]; }
+            get 
+            {
+                string text = (string)ViewState["CSSLink"];
+                return text ?? Page.ClientScript.GetWebResourceUrl(this.GetType(), "Alarich.WebPaint.WebPaint.css");
+            }
             set { ViewState["CSSLink"] = value; }
         }
 
@@ -164,10 +168,6 @@ namespace Alarich
         {
             base.OnInit(e);
 
-            if (string.IsNullOrEmpty(CSSLink))
-            {
-                CSSLink = Page.ClientScript.GetWebResourceUrl(this.GetType(), "Alarich.WebPaint.WebPaint.css");
-            }
             string css = $"<link href=\"{CSSLink}\" type=\"text/css\" rel=\"stylesheet\" />";
             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "cssFile", css, false);
 
