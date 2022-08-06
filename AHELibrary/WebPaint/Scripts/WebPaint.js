@@ -18,14 +18,16 @@ var startX, endX, startY, endY;
 var mouseIsDown = 0;
 
 var lineWidth = 1;
-var color = "#ff0000";
+var Color = "#FF0000";
 
 // crop variables
 var forceProportions = true;
 
 var actionLog = new Array();
 
-function init() {
+function init(color) {
+    Color = color;
+
     renderCanvas = document.getElementById('renderCanvas');
     renderContext = renderCanvas.getContext('2d');
 
@@ -162,7 +164,7 @@ function setAction(ddl) {
 }
 
 function setColor(colorChoice) {
-    color = colorChoice.value;
+    Color = colorChoice.value;
 }
 
 function eventListener() {
@@ -266,7 +268,7 @@ function drawSquare(cnv, clear) {
 
     ctx.beginPath();
     ctx.globalAlpha = 1;
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = Color;
     ctx.lineWidth = lineWidth
     ctx.setLineDash([]); // solid line
     if (action === 'Zuschneiden') {

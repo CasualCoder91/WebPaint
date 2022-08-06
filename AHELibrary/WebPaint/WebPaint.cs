@@ -86,6 +86,12 @@ namespace Alarich
             set { ViewState["SavePath"] = value; }
         }
 
+        [DefaultValue(typeof(string), "#000000")]
+        public string DefaultColor
+        {
+            get { return (string)ViewState["DefaultColor"]; }
+            set { ViewState["DefaultColor"] = value; }
+        }
 
         private void CreateCustomChildControls()
         {
@@ -190,7 +196,7 @@ namespace Alarich
                 // Color selection
                 output.AddAttribute(HtmlTextWriterAttribute.Id, "colorChoice");
                 output.AddAttribute(HtmlTextWriterAttribute.Name, "colorChoice");
-                output.AddAttribute(HtmlTextWriterAttribute.Value, "#ff0000");
+                output.AddAttribute(HtmlTextWriterAttribute.Value, DefaultColor);
                 output.AddAttribute(HtmlTextWriterAttribute.Type, "color");
                 output.AddAttribute(HtmlTextWriterAttribute.Onchange, "setColor(this);");
                 output.RenderBeginTag("input");
@@ -219,7 +225,7 @@ namespace Alarich
         protected override void OnPreRender(EventArgs e)
         {
             Page.ClientScript.RegisterClientScriptResource(typeof(WebPaint), "Alarich.WebPaint.Scripts.WebPaint.js");
-            Page.ClientScript.RegisterStartupScript(GetType(), "init", "init();", true);
+            Page.ClientScript.RegisterStartupScript(GetType(), "init", $"init(\"{DefaultColor}\");", true);
         }
 
         public void DisplayImage(string imageURL)

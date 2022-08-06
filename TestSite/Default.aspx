@@ -11,7 +11,7 @@
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server" ID="ScriptManager"></asp:ScriptManager>
         <div>
-            <AHE:WebPaint ID="webPaint" runat="server" Width="500" Height="500" Visible="false" Language="EN" /><br />
+            <AHE:WebPaint ID="webPaint" runat="server" Width="500" Height="500" Visible="false" Language="EN" DefaultColor="#FFFFFF"/><br />
             <asp:Button ID="btnLoadImage" runat="server" OnClick="btnLoadImage_Click" Text="Load" />
             <asp:Button ID="btnSaveImage" runat="server" OnClientClick="saveImageData();" OnClick="btnSaveImage_Click" Text="Save" />
         </div>
