@@ -93,6 +93,12 @@ namespace Alarich
             set { ViewState["DefaultColor"] = value; }
         }
 
+        public string CSSLink
+        {
+            get { return (string)ViewState["CSSLink"]; }
+            set { ViewState["CSSLink"] = value; }
+        }
+
         private void CreateCustomChildControls()
         {
             // Textanzeige sprachsensitiv
@@ -151,7 +157,11 @@ namespace Alarich
         {
             base.OnInit(e);
 
-            string css = "<link href=\"" + Page.ClientScript.GetWebResourceUrl(this.GetType(), "Alarich.WebPaint.WebPaint.css") + "\" type=\"text/css\" rel=\"stylesheet\" />";
+            if (string.IsNullOrEmpty(CSSLink))
+            {
+                CSSLink = Page.ClientScript.GetWebResourceUrl(this.GetType(), "Alarich.WebPaint.WebPaint.css");
+            }
+            string css = $"<link href=\"{CSSLink}\" type=\"text/css\" rel=\"stylesheet\" />";
             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "cssFile", css, false);
 
             CreateCustomChildControls();

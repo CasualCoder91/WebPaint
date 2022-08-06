@@ -94,6 +94,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Web.config" />
+    <EmbeddedResource Include="CustomWebPaint.css" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Default.aspx.designer.vb">
