@@ -13,7 +13,6 @@
         <div>
             <AHE:WebPaint ID="webPaint" runat="server" Width="500" Height="500"
                 Visible="false"
-                Language="EN"
                 DefaultColor="#FFFFFF"
                 CSSLink="/CustomWebPaint.css"/><br />
             <asp:Button ID="btnLoadImage" runat="server" OnClick="btnLoadImage_Click" Text="Load" />

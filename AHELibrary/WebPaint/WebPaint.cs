@@ -76,7 +76,11 @@ namespace Alarich
 
         public string Language
         {
-            get { return (string)ViewState["Language"]; }
+            get 
+            {
+                string text = (string)ViewState["Language"];
+                return text ?? "EN";
+            }
             set { ViewState["Language"] = value; }
         }
 
@@ -86,10 +90,13 @@ namespace Alarich
             set { ViewState["SavePath"] = value; }
         }
 
-        [DefaultValue(typeof(string), "#000000")]
         public string DefaultColor
         {
-            get { return (string)ViewState["DefaultColor"]; }
+            get 
+            {
+                string text = (string)ViewState["DefaultColor"];
+                return text ?? "#000000";
+            }
             set { ViewState["DefaultColor"] = value; }
         }
 
@@ -101,7 +108,7 @@ namespace Alarich
 
         private void CreateCustomChildControls()
         {
-            // Textanzeige sprachsensitiv
+            // Multi language support
             if (Language == "EN")
             {
                 actions.ElementAt(0).DisplayName = "Rectangle";
