@@ -96,7 +96,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Changelog
 
-### [1.0.0.1] - 2022-08-06
+### [1.0.0.2] - 2022-08-06
 
 Properties for default color and custom css file added.
 
