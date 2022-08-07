@@ -88,7 +88,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Roadmap
 
-- [ ] Handle onmouseout
+- [x] Handle onmouseout
 - [ ] Add Customization options
   - [x] custom css
   - [ ] disable proportion enforcement
