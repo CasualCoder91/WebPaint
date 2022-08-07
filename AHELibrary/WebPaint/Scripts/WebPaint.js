@@ -149,9 +149,11 @@ function rotate(deg = 90) {
 
 function relativePos(event, element) {
     var rect = element.getBoundingClientRect();
+    var x = Math.floor(event.clientX - rect.left);
+    var y = Math.floor(event.clientY - rect.top);
     return {
-        x: Math.floor(event.clientX - rect.left),
-        y: Math.floor(event.clientY - rect.top)
+        x: x < event.clientX ? x : event.clientX,
+        y: y < event.clientY ? y : event.clientY
     };
 }
 
@@ -168,20 +170,18 @@ function setColor(colorChoice) {
 }
 
 function eventListener() {
-    if (action === 'Rechteck') {
-        renderCanvas.addEventListener("mousedown", function (e) {
-            mouseDown(e);
-            render();
-        }, false);
-        renderCanvas.addEventListener("mousemove", function (e) {
-            mouseXY(e);
-            render();
-        }, false);
-        renderCanvas.addEventListener("mouseup", function (e) {
-            mouseUp(e);
-            render();
-        }, false);
-    }
+    renderCanvas.addEventListener("mousedown", function (e) {
+        mouseDown(e);
+        render();
+    }, false);
+    renderCanvas.addEventListener("mousemove", function (e) {
+        mouseXY(e);
+        render();
+    }, false);
+    renderCanvas.addEventListener("mouseup", function (e) {
+        mouseUp(e);
+        render();
+    }, false);
 }
 
 function mouseUp(event) {
@@ -239,6 +239,7 @@ function mouseDown(event) {
     var pos = relativePos(event, renderCanvas);
     startX = endX = pos.x;
     startY = endY = pos.y;
+    event.preventDefault();
 }
 
 function mouseXY(event) {

@@ -365,3 +365,4 @@ FodyWeavers.xsd
 
 TestSite/Images/*
 /AHELibrary/nuget.exe
+/doc/banner
