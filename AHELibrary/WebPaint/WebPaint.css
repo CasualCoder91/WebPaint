@@ -1,13 +1,15 @@
 ﻿
 #menubar {
     border-radius: 0px 0px 25px 25px;
-    border: 2px solid #73AD21;
+    border: 2px solid #FFFFFF;
+    background-color: #ccd2ff;
     padding: 10px 20px;
 }
 
 #master {
     border-radius: 25px;
-    border: 2px solid #73AD21;
+    /*border: 2px solid #73AD21;*/
+    background-color: #DEE2FF;
     padding: 20px;
     display: inline-block;
 }
