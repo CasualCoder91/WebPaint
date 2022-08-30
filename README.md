@@ -96,6 +96,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Changelog
 
+### [1.0.0.3] - 2022-08-30
+
+The HiddenField "ImageData" is now public to allow for custom save methods.
+
 ### [1.0.0.2] - 2022-08-06
 
 Properties for default color and custom css file added.
