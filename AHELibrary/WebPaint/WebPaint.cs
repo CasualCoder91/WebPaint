@@ -67,12 +67,23 @@ namespace Alarich
             new Action("Zuschneiden"),
         };
 
-        //private Image image;
         private ImageButton rotateButton;
         private ImageButton undoButton;
         private DropDownList toolSelectionDDL;
         private DropDownList sizesDDL;
-        private HiddenField imageData;
+
+        /// <summary>
+        /// Stores the currently displayed image as a Base64 string
+        /// </summary>
+        public HiddenField ImageData
+        {
+            get
+            {
+                HiddenField imageData = (HiddenField)ViewState["ImageData"];
+                return imageData ?? new HiddenField();
+            }
+            private set { ViewState["ImageData"] = value;}
+        }
 
         public string Language
         {
@@ -155,12 +166,12 @@ namespace Alarich
             };
             base.Controls.Add(undoButton);
 
-            imageData = new HiddenField
+            ImageData = new HiddenField
             {
                 ID = "imageData",
                 ClientIDMode = ClientIDMode.Static,
             };
-            base.Controls.Add(imageData);
+            base.Controls.Add(ImageData);
 
         }
 
@@ -235,7 +246,7 @@ namespace Alarich
 
                 output.RenderEndTag(); // close Master div
 
-                imageData.RenderControl(output);
+                ImageData.RenderControl(output);
             }
         }
 
@@ -252,7 +263,7 @@ namespace Alarich
 
         public bool UploadImage(string path)
         {
-            if (string.IsNullOrEmpty(imageData.Value))
+            if (string.IsNullOrEmpty(ImageData.Value))
             {
                 return false;
             }
@@ -260,7 +271,7 @@ namespace Alarich
             {
                 using (System.IO.BinaryWriter bw = new System.IO.BinaryWriter(fs))
                 {
-                    byte[] data = Convert.FromBase64String(imageData.Value);
+                    byte[] data = Convert.FromBase64String(ImageData.Value);
                     bw.Write(data);
                     bw.Close();
                 }
