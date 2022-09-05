@@ -105,6 +105,38 @@ function loadImage(imageURL) {
     }
 }
 
+function loadImageFromData(imgData) {
+    var uInt8Array = imgData;
+    var i = uInt8Array.length;
+    var binaryString = [i];
+    while (i--) {
+        binaryString[i] = String.fromCharCode(uInt8Array[i]);
+    }
+    var data = binaryString.join('');
+
+    var base64 = window.btoa(data);
+
+    var img = new Image();
+    img.src = "data:image/png;base64," + base64;
+    img.onload = function () {
+        // draw image on a new canvas keeping the original size
+        var imageCanvas = document.createElement('canvas');
+        imageCanvas.width = img.width;
+        imageCanvas.height = img.height;
+        imageCanvas.getContext('2d').drawImage(img, 0, 0, imageCanvas.width, imageCanvas.height);
+
+        // create target canvas fitting proportions of the render canvas
+        var inMemoryCanvas = copyCanvas(renderCanvas);
+
+        // draw image onto target canvas -> scaling the image wile keeping proportions
+        drawCanvas(inMemoryCanvas, imageCanvas, true);
+
+        canvasLog.push(inMemoryCanvas);
+
+        render();
+    };
+}
+
 function copyCanvas(canvas) {
     var inMemoryCanvas = document.createElement('canvas');
     inMemoryCanvas.width = canvas.width;

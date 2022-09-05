@@ -15,7 +15,9 @@
                 Visible="false"
                 DefaultColor="#FFFFFF"/><br />
             <asp:Button ID="btnLoadImage" runat="server" OnClick="btnLoadImage_Click" Text="Load" />
-            <asp:Button ID="btnSaveImage" runat="server" OnClientClick="saveImageData();" OnClick="btnSaveImage_Click" Text="Save" />
+            <asp:Button ID="btnSaveImage" runat="server" OnClientClick="saveImageData();" OnClick="btnSaveImage_Click" Text="Save" /><br />
+            <asp:FileUpload ID="FileUpload" runat="server" />
+            <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click" Text="Upload"  />
         </div>
     </form>
 </body>

@@ -261,6 +261,12 @@ namespace Alarich
             Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"loadImage(\"{imageURL}\");", true);
         }
 
+        public void DisplayImage(byte[] imgData)
+        {
+            string temp = $"[{string.Join(",", imgData.Select(b => b.ToString()))}]";
+            Page.ClientScript.RegisterStartupScript(this.Page.GetType(), Guid.NewGuid().ToString(), $"loadImageFromData({temp});", true);
+        }
+
         public bool UploadImage(string path)
         {
             if (string.IsNullOrEmpty(ImageData.Value))

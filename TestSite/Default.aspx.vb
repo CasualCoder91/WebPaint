@@ -17,4 +17,9 @@
         webPaint.UploadImage(fullPath)
         webPaint.Visible = False
     End Sub
+
+    Protected Sub btnUpload_Click(sender As Object, e As EventArgs)
+        webPaint.DisplayImage(Me.FileUpload.FileBytes)
+        webPaint.Visible = True
+    End Sub
 End Class
