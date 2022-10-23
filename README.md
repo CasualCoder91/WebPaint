@@ -11,6 +11,7 @@ A NET Framework 4.8-based Custom ASP.NET Server Control for image manipulation.
 - Scale
 - Rotate
 - Draw rectanges
+- Draw arrows
 
 ### Demonstration
 
