@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Alarich.WebPaint</id>
-    <version>1.0.0.3</version>
+    <version>1.0.0.4</version>
     <title>WebPaint</title>
     <authors>Alarich</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <!-- <icon>icon.png</icon> -->
     <projectUrl>https://github.com/CasualCoder91/WebPaint</projectUrl>
     <description>A custom server control for image manipulation.</description>
-    <releaseNotes>ImageData HiddenField is now public</releaseNotes>
+    <releaseNotes>New Option: Load Image from Byte Array</releaseNotes>
     <copyright>Copyright © 2022</copyright>
     <tags>Custom Server Control C# Paint Image Manipulation .NET</tags>
 	<dependencies>

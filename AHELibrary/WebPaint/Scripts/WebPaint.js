@@ -222,7 +222,7 @@ function mouseUp(event) {
         var pos = relativePos(event, renderCanvas);
         endX = pos.x;
         endY = pos.y;
-        if (action === 'Rechteck') {
+        if (action === 'Rechteck' || action === 'Pfeil') {
             var currentCanvas = copyCanvas(canvasLog[canvasLog.length - 1]); // new canvas is old canvas
             drawCanvas(currentCanvas, tempCanvas) // draw shape on top of new canvas
             canvasLog.push(currentCanvas); // add new canvas to the Log
@@ -282,7 +282,12 @@ function mouseXY(event) {
         if (forceProportions && action === 'Zuschneiden') {
             endY = startY + (endY - startY) / Math.abs(endY - startY) * renderCanvas.height / renderCanvas.width * Math.abs(startX - pos.x);
         }
-        drawSquare(tempCanvas, true);
+        if (action === 'Zuschneiden' || action === 'Rechteck') {
+            drawSquare(tempCanvas, true);
+        }
+        if (action === 'Pfeil') {
+            drawArrow(tempCanvas, true);
+        }
     }
 }
 
@@ -311,6 +316,26 @@ function drawSquare(cnv, clear) {
         ctx.setLineDash([5, 15]);
     }
     ctx.strokeRect(startX + offsetX, startY + offsetY, width, height);
+}
+
+function drawArrow(cnv, clear) {
+    var ctx = cnv.getContext("2d");
+    if (clear && clear === true) {
+        ctx.clearRect(0, 0, cnv.width, cnv.height);
+    }
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(startX + 1 / 3 * (endX - startX) + 1 / 3 * (endY - startY), startY + 1 / 3 * (endY - startY) - 1 / 3 * (endX - startX));
+    ctx.lineTo(startX + 1 / 3 * (endX - startX) + 1 / 6 * (endY - startY), startY + 1 / 3 * (endY - startY) - 1 / 6 * (endX - startX));
+    ctx.lineTo(endX + 1 / 6 * (endY - startY), endY - 1 / 6 * (endX - startX));
+    ctx.lineTo(endX - 1 / 6 * (endY - startY), endY + 1 / 6 * (endX - startX));
+    ctx.lineTo(startX + 1 / 3 * (endX - startX) - 1 / 6 * (endY - startY), startY + 1 / 3 * (endY - startY) + 1 / 6 * (endX - startX));
+    ctx.lineTo(startX + 1 / 3 * (endX - startX) - 1 / 3 * (endY - startY), startY + 1 / 3 * (endY - startY) + 1 / 3 * (endX - startX));
+    ctx.closePath();
+
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = Color;
+    ctx.stroke();
 }
 
 function render() {

@@ -65,6 +65,7 @@ namespace Alarich
         {
             new Action("Rechteck"),
             new Action("Zuschneiden"),
+            new Action("Pfeil"),
         };
 
         private ImageButton rotateButton;
@@ -128,6 +129,7 @@ namespace Alarich
             {
                 actions.ElementAt(0).DisplayName = "Rectangle";
                 actions.ElementAt(1).DisplayName = "Trim";
+                actions.ElementAt(2).DisplayName = "Arrow";
             }
 
             toolSelectionDDL = new DropDownList() 
