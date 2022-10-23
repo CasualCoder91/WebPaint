@@ -96,6 +96,10 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Changelog
 
+### [1.0.0.5] - 2022-10-12
+
+New Action: Draw Arrows.
+
 ### [1.0.0.4] - 2022-09-05
 
 New Option: Load Image from Byte Array.
